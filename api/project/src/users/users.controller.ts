@@ -1,18 +1,21 @@
 import { Controller, Get, Post, Put, Delete } from '@nestjs/common';
 import { Req, Header, Param, Query, Body } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto } from './dto';
+import { CreateUserDto, UpdateUserDto } from './dto/users.dto';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController {
+  constructor(private usersService: UsersService) {}
+
   @Post()
   @Header('Cache-Control', 'none')
   async create(@Body() CreateUserDto: CreateUserDto) {
-    return 'add user';
+    return this.usersService.create(CreateUserDto);
   }
 
   @Get()
   async findAll() {
-    return 'get all users';
+    return this.usersService.findAll();
   }
 
   @Get(':id')
@@ -21,12 +24,12 @@ export class UsersController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return `update #${id} user`;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string) {
     return `delete #${id} user`;
   }
 }
