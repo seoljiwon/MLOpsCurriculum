@@ -27,17 +27,17 @@ export class UsersController {
   @Post()
   @Header('Cache-Control', 'none')
   async create(@Body() CreateUserDto: CreateUserDto): Promise<User> {
-    return await this.usersService.create(CreateUserDto);
+    return this.usersService.create(CreateUserDto);
   }
 
   @Get()
   async findAll(): Promise<User[]> {
-    return await this.usersService.findAll();
+    return this.usersService.findAll();
   }
 
   @Get(':id')
   async findOne(@Param('id', new ParseIntPipe()) id: number): Promise<User> {
-    return await this.usersService.findOne(id);
+    return this.usersService.findOne(id);
   }
 
   @Put(':id')
@@ -45,11 +45,11 @@ export class UsersController {
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<User> {
-    return await this.usersService.update(id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
   async remove(@Param('id', new ParseIntPipe()) id: number): Promise<User> {
-    return await this.usersService.remove(id);
+    return this.usersService.remove(id);
   }
 }
