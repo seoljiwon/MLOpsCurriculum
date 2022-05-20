@@ -1,15 +1,19 @@
-FROM node:14 AS builder
+# builer
+FROM node:14-alpine AS builder
 
 COPY . /app
 WORKDIR /app
 
-RUN npm install
-RUN npm run build
+RUN npm install && npm run build
 
+# runner
 FROM node:14-alpine
 
 WORKDIR /app
 
-COPY --from=builder /app ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
 
-CMD ["npm", "run", "start"]
+COPY --from=builder /app/package.json ./package.json
+
+CMD ["npm", "run", "start:prod"]
