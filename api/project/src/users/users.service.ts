@@ -51,23 +51,21 @@ export class UsersService {
   }
 
   async update(id: number, user: UserParams) {
-    let result;
+    let updateResult;
     try {
-      result = await this.userRepository.update(id, user);
-
-      if (!result.affected) throw new Error();
+      updateResult = await this.userRepository.update(id, user);
     } catch (err) {
       // conflict error
       if (err.code === 'ER_DUP_ENTRY')
         throw new ConflictException('The user already exists.');
-
-      // not found error
-      if (!result.affected)
-        throw new NotFoundException('The user is not found.');
     }
 
+    // not found error
+    if (!updateResult.affected)
+      throw new NotFoundException('The user is not found.');
+
     // updated result
-    result = await this.userRepository.findOne(id);
+    const result = await this.userRepository.findOne(id);
     return result;
   }
 

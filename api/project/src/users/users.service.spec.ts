@@ -47,27 +47,22 @@ const mockUserRepo = {
     });
 
     const updatedUser = mockUserRepo.findOne(id);
-    if (!updatedUser) {
-      const result = {
-        affected: 0,
-      };
-      return result;
+    if (updatedUser) {
+      if (user.name) updatedUser.name = user.name;
+      if (user.age) updatedUser.age = user.age;
     }
 
-    updatedUser.affected = 1;
-    if (user.name) updatedUser.name = user.name;
-    if (user.age) updatedUser.age = user.age;
-
-    return updatedUser;
+    const updateResult = updatedUser ? { affected: 1 } : { affected: 0 };
+    return updateResult;
   }),
   delete: jest.fn((id: number) => {
     if (id !== undefined) {
       const index = users.findIndex((c) => c.id === id);
+      const result = index > -1 ? { affected: 1 } : { affected: 0 };
       if (index > -1) {
-        const deletedUser = users[index];
         users.splice(index, 1);
-        return deletedUser;
       }
+      return result;
     }
   }),
 };
