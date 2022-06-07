@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserParams } from './inferface/user.interface';
 import { User } from './entity/user.entity';
 import { UserRepository } from './entity/user.repository';
+import { ErrorCode } from '../common/error.types';
 
 @Injectable()
 export class UsersService {
@@ -28,10 +29,9 @@ export class UsersService {
       result = await this.userRepository.save(user);
     } catch (err) {
       // conflict error
-      if (err.code === 'ER_DUP_ENTRY')
+      if (err.code === ErrorCode.ER_DUP_ENTRY)
         throw new ConflictException('The user already exists.');
     }
-
     return result;
   }
 
@@ -51,34 +51,37 @@ export class UsersService {
   }
 
   async update(id: number, user: UserParams) {
+    let result;
     try {
-      const result = await this.userRepository.update(id, user);
+      result = await this.userRepository.update(id, user);
 
-      // not found error
-      if (!result.affected)
-        throw new NotFoundException('The user is not found.');
+      if (!result.affected) throw new Error();
     } catch (err) {
       // conflict error
       if (err.code === 'ER_DUP_ENTRY')
         throw new ConflictException('The user already exists.');
-    }
-
-    // updated result
-    const result = await this.userRepository.findOne(id);
-    return result;
-  }
-
-  async remove(id: number) {
-    try {
-      const result = await this.userRepository.delete(id);
 
       // not found error
       if (!result.affected)
         throw new NotFoundException('The user is not found.');
-    } catch (err) {}
+    }
 
+    // updated result
+    result = await this.userRepository.findOne(id);
+    return result;
+  }
+
+  async remove(id: number) {
     // deleted result
     const result = await this.userRepository.findOne(id);
+
+    // not found error
+    if (!result) {
+      throw new NotFoundException('The user is not found.');
+    }
+
+    await this.userRepository.delete(id);
+
     return result;
   }
 }
