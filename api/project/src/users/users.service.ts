@@ -31,6 +31,7 @@ export class UsersService {
       // conflict error
       if (err.code === ErrorCode.ER_DUP_ENTRY)
         throw new ConflictException('The user already exists.');
+      else throw err;
     }
     return result;
   }
@@ -58,6 +59,7 @@ export class UsersService {
       // conflict error
       if (err.code === 'ER_DUP_ENTRY')
         throw new ConflictException('The user already exists.');
+      else throw err;
     }
 
     // not found error
