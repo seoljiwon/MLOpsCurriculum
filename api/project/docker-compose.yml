@@ -1,20 +1,6 @@
-version: '3.1'
+version: "3"
 
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    ports:
-      - 3000:3000
-    env_file:
-      - ./.env
-    links:
-      - db
-    depends_on:
-      - db
-    container_name: backend
-
   db:
     image: mysql:8
     ports:
@@ -23,4 +9,14 @@ services:
       - ./.env
     # volumes:
     #   - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    container_name: db
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    depends_on:
+      - db
