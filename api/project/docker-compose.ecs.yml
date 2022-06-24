@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  backend:
+    image: 854407906105.dkr.ecr.ap-northeast-2.amazonaws.com/mlopscurriculum:mlops-seol
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env.prod
+    restart: on-failure
