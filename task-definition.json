@@ -1,0 +1,87 @@
+{
+  "family": "",
+  "taskRoleArn": "",
+  "executionRoleArn": "arn:aws:iam::410506141604:user/admin",
+  "networkMode": "awsvpc",
+  "containerDefinitions": [
+    {
+      "name": "mlops-seol",
+      "image": "",
+      "repositoryCredentials": {
+        "credentialsParameter": ""
+      },
+      "cpu": 256,
+      "memory": null,
+      "memoryReservation": 512,
+      "links": [],
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "protocol": "tcp",
+          "containerPort": 80
+        },
+        {
+          "hostPort": 3000,
+          "protocol": "tcp",
+          "containerPort": 3000
+        },
+        {
+          "hostPort": 3306,
+          "protocol": "tcp",
+          "containerPort": 3306
+        }
+      ],
+      "essential": true,
+      "entryPoint": [],
+      "command": [],
+      "environment": [],
+      "environmentFiles": null,
+      "mountPoints": [],
+      "volumesFrom": [],
+      "linuxParameters": null,
+      "secrets": null,
+      "dependsOn": null,
+      "startTimeout": null,
+      "stopTimeout": null,
+      "hostname": "",
+      "user": "",
+      "workingDirectory": "",
+      "disableNetworking": null,
+      "privileged": null,
+      "readonlyRootFilesystem": null,
+      "dnsServers": null,
+      "dnsSearchDomains": null,
+      "extraHosts": null,
+      "dockerSecurityOptions": null,
+      "interactive": null,
+      "pseudoTerminal": null,
+      "dockerLabels": null,
+      "ulimits": null,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/mlopscurriculum",
+          "awslogs-region": "ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
+        },
+        "secretOptions": null
+      },
+      "healthCheck": null,
+      "systemControls": null,
+      "resourceRequirements": null,
+      "firelensConfiguration": null
+    }
+  ],
+  "volumes": [],
+  "placementConstraints": [],
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512",
+  "tags": [],
+  "pidMode": null,
+  "ipcMode": null,
+  "proxyConfiguration": null,
+  "inferenceAccelerators": null,
+  "ephemeralStorage": null,
+  "runtimePlatform": null
+}
