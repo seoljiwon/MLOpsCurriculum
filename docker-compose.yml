@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   db:
@@ -6,7 +6,7 @@ services:
     ports:
       - 3306:3306
     env_file:
-      - ./.env
+      - ./api/.env
     # volumes:
     #   - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
@@ -17,7 +17,7 @@ services:
     ports:
       - 3000:3000
     env_file:
-      - ./.env
+      - ./api/.env
     depends_on:
       - db
     links:
